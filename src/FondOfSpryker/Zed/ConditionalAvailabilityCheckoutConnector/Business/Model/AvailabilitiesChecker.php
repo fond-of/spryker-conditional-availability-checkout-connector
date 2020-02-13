@@ -43,7 +43,7 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
         $isPassed = true;
         $groupedQuoteItemTransferMap = $this->groupQuoteItemsBySku($quoteTransfer);
 
-        $conditionalAvailabilityCriteriaFilterTransfer = (new ConditionalAvailabilityCriteriaFilterTransfer())
+        $conditionalAvailabilityCriteriaFilterTransfer = $this->getConditionalAvailabilityCriteriaFilterTransferByQuoteTransfer($quoteTransfer)
             ->setSkus(array_keys($groupedQuoteItemTransferMap->getArrayCopy()));
 
         $groupedConditionalAvailabilityTransferMap = $this->conditionalAvailabilityFacade
@@ -115,6 +115,28 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \ArrayObject<string,\Generated\Shared\Transfer\ConditionalAvailabilityTransfer[]>
+     */
+    protected function getConditionalAvailabilityCriteriaFilterTransferByQuoteTransfer(
+        QuoteTransfer $quoteTransfer
+    ): ConditionalAvailabilityCriteriaFilterTransfer {
+        $customerTransfer = $quoteTransfer->getCustomer();
+
+        if ($customerTransfer === null) {
+            return null;
+        }
+
+        $isAccessible = $customerTransfer->getHasAvailabilityRestrictions() === true ? true : null;
+
+        return (new ConditionalAvailabilityCriteriaFilterTransfer())
+            ->setWarehouseGroup('EU')
+            ->setIsAccessible($isAccessible)
+            ->setMinimumQuantity(1);
     }
 
     /**
