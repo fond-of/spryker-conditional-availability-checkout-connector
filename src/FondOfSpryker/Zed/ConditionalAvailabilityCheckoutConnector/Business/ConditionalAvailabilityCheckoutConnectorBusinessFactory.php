@@ -24,6 +24,8 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactory extends AbstractBu
     }
 
     /**
+     * @throws
+     *
      * @return \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface
      */
     protected function getConditionalAvailabilityFacade(): ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface
