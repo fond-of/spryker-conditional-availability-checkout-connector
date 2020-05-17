@@ -72,8 +72,6 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
      * @param \Generated\Shared\Transfer\ItemTransfer $quoteItemTransfer
      * @param \ArrayObject $groupedConditionalAvailabilityTransferMap
      *
-     * @throws
-     *
      * @return bool
      */
     protected function isQuoteItemAvailable(
@@ -120,23 +118,24 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \ArrayObject<string,\Generated\Shared\Transfer\ConditionalAvailabilityTransfer[]>
+     * @return \Generated\Shared\Transfer\ConditionalAvailabilityCriteriaFilterTransfer
      */
     protected function getConditionalAvailabilityCriteriaFilterTransferByQuoteTransfer(
         QuoteTransfer $quoteTransfer
     ): ConditionalAvailabilityCriteriaFilterTransfer {
+        $conditionalAvailabilityCriteriaFilterTransfer = (new ConditionalAvailabilityCriteriaFilterTransfer())
+            ->setWarehouseGroup('EU')
+            ->setIsAccessible(true)
+            ->setMinimumQuantity(1);
+
         $customerTransfer = $quoteTransfer->getCustomer();
 
-        if ($customerTransfer === null) {
-            return null;
+        if ($customerTransfer === null || $customerTransfer->getHasAvailabilityRestrictions()) {
+            return $conditionalAvailabilityCriteriaFilterTransfer;
         }
 
-        $isAccessible = $customerTransfer->getHasAvailabilityRestrictions() === true ? true : null;
-
-        return (new ConditionalAvailabilityCriteriaFilterTransfer())
-            ->setWarehouseGroup('EU')
-            ->setIsAccessible($isAccessible)
-            ->setMinimumQuantity(1);
+        return $conditionalAvailabilityCriteriaFilterTransfer
+            ->setIsAccessible(null);
     }
 
     /**
