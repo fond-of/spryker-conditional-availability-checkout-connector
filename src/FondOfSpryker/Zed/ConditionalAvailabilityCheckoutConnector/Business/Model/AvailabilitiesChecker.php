@@ -141,7 +141,7 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \ArrayObject<string,\Generated\Shared\Transfer\ConditionalAvailabilityTransfer[]>
+     * @return \ArrayObject
      */
     protected function groupQuoteItemsBySku(QuoteTransfer $quoteTransfer): ArrayObject
     {
