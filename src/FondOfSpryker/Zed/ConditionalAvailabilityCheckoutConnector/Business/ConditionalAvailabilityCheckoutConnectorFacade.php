@@ -12,7 +12,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class ConditionalAvailabilityCheckoutConnectorFacade extends AbstractFacade implements ConditionalAvailabilityCheckoutConnectorFacadeInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @api
      *
