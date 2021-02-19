@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\Mo
 use ArrayObject;
 use DateTime;
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface;
+use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\ConditionalAvailabilityCriteriaFilterTransfer;
@@ -24,12 +25,20 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
     protected $conditionalAvailabilityFacade;
 
     /**
+     * @var \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface
+     */
+    protected $conditionalAvailabilityService;
+
+    /**
      * @param \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface $conditionalAvailabilityFacade
+     * @param \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface $conditionalAvailabilityService
      */
     public function __construct(
-        ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface $conditionalAvailabilityFacade
+        ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface $conditionalAvailabilityFacade,
+        ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface $conditionalAvailabilityService
     ) {
         $this->conditionalAvailabilityFacade = $conditionalAvailabilityFacade;
+        $this->conditionalAvailabilityService = $conditionalAvailabilityService;
     }
 
     /**
@@ -85,6 +94,7 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
         }
 
         $concreteDeliveryDate = new DateTime($quoteItemTransfer->getConcreteDeliveryDate());
+        $latestOrderDate = $this->conditionalAvailabilityService->generateLatestOrderDateByDeliveryDate($concreteDeliveryDate);
         $quantity = $quoteItemTransfer->getQuantity();
 
         foreach ($groupedConditionalAvailabilityTransferMap->offsetGet($sku) as $conditionalAvailabilityTransfer) {
@@ -104,7 +114,7 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
                 $endAt = new DateTime($conditionalAvailabilityPeriodTransfer->getEndAt());
                 $availableQuantity = $conditionalAvailabilityPeriodTransfer->getQuantity();
 
-                if ($concreteDeliveryDate < $startAt || $concreteDeliveryDate > $endAt || $availableQuantity < $quantity) {
+                if ($latestOrderDate < $startAt || $latestOrderDate > $endAt || $availableQuantity < $quantity) {
                     continue;
                 }
 

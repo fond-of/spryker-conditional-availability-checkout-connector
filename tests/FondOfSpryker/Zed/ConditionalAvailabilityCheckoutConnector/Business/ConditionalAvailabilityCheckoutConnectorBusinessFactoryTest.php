@@ -3,18 +3,14 @@
 namespace FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\Model\AvailabilitiesCheckerInterface;
+use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\Model\AvailabilitiesChecker;
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\ConditionalAvailabilityCheckoutConnectorDependencyProvider;
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface;
+use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface;
 use Spryker\Zed\Kernel\Container;
 
 class ConditionalAvailabilityCheckoutConnectorBusinessFactoryTest extends Unit
 {
-    /**
-     * @var \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\ConditionalAvailabilityCheckoutConnectorBusinessFactory
-     */
-    protected $conditionalAvailabilityCheckoutConnectorBusinessFactory;
-
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\Kernel\Container
      */
@@ -23,7 +19,17 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactoryTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface
      */
-    protected $conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterfaceMock;
+    protected $conditionalAvailabilityFacadeMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface
+     */
+    protected $conditionalAvailabilityServiceMock;
+
+    /**
+     * @var \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\ConditionalAvailabilityCheckoutConnectorBusinessFactory
+     */
+    protected $conditionalAvailabilityCheckoutConnectorBusinessFactory;
 
     /**
      * @return void
@@ -34,7 +40,11 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactoryTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterfaceMock = $this->getMockBuilder(ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface::class)
+        $this->conditionalAvailabilityFacadeMock = $this->getMockBuilder(ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->conditionalAvailabilityServiceMock = $this->getMockBuilder(ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -47,17 +57,23 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactoryTest extends Unit
      */
     public function testCreateAvailabilitiesChecker(): void
     {
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(static::atLeastOnce())
             ->method('has')
             ->willReturn(true);
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(static::atLeastOnce())
             ->method('get')
-            ->with(ConditionalAvailabilityCheckoutConnectorDependencyProvider::FACADE_CONDITIONAL_AVAILABILITY)
-            ->willReturn($this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterfaceMock);
+            ->withConsecutive(
+                [ConditionalAvailabilityCheckoutConnectorDependencyProvider::FACADE_CONDITIONAL_AVAILABILITY],
+                [ConditionalAvailabilityCheckoutConnectorDependencyProvider::SERVICE_CONDITIONAL_AVAILABILITY]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $this->conditionalAvailabilityFacadeMock,
+                $this->conditionalAvailabilityServiceMock
+            );
 
-        $this->assertInstanceOf(
-            AvailabilitiesCheckerInterface::class,
+        static::assertInstanceOf(
+            AvailabilitiesChecker::class,
             $this->conditionalAvailabilityCheckoutConnectorBusinessFactory->createAvailabilitiesChecker()
         );
     }

@@ -6,6 +6,7 @@ use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\Model\Av
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Business\Model\AvailabilitiesCheckerInterface;
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\ConditionalAvailabilityCheckoutConnectorDependencyProvider;
 use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Facade\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface;
+use FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
@@ -19,7 +20,8 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactory extends AbstractBu
     public function createAvailabilitiesChecker(): AvailabilitiesCheckerInterface
     {
         return new AvailabilitiesChecker(
-            $this->getConditionalAvailabilityFacade()
+            $this->getConditionalAvailabilityFacade(),
+            $this->getConditionalAvailabilityService()
         );
     }
 
@@ -29,5 +31,13 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactory extends AbstractBu
     protected function getConditionalAvailabilityFacade(): ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeInterface
     {
         return $this->getProvidedDependency(ConditionalAvailabilityCheckoutConnectorDependencyProvider::FACADE_CONDITIONAL_AVAILABILITY);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\ConditionalAvailabilityCheckoutConnector\Dependency\Service\ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface
+     */
+    protected function getConditionalAvailabilityService(): ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceInterface
+    {
+        return $this->getProvidedDependency(ConditionalAvailabilityCheckoutConnectorDependencyProvider::SERVICE_CONDITIONAL_AVAILABILITY);
     }
 }
