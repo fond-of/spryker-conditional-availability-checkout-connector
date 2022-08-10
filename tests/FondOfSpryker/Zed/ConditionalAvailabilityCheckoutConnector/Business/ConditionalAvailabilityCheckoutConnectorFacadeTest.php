@@ -76,8 +76,8 @@ class ConditionalAvailabilityCheckoutConnectorFacadeTest extends Unit
         $this->assertTrue(
             $this->conditionalAvailabilityCheckoutConnectorFacade->checkAvailabilities(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 }

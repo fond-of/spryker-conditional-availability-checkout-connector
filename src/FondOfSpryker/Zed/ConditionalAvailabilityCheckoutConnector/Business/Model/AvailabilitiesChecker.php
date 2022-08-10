@@ -14,9 +14,24 @@ use Generated\Shared\Transfer\QuoteTransfer;
 
 class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
 {
+    /**
+     * @var string
+     */
     protected const ERROR_TYPE_CONDITIONAL_AVAILABILITY = 'Conditional Availability';
+
+    /**
+     * @var string
+     */
     protected const MESSAGE_UNAVAILABLE_PRODUCT = 'conditional_availability_checkout_connector.product.unavailable';
+
+    /**
+     * @var int
+     */
     protected const ERROR_CODE_UNAVAILABLE_PRODUCT = 4102;
+
+    /**
+     * @var string
+     */
     protected const PARAMETER_PRODUCT_SKU = '%sku%';
 
     /**
@@ -62,7 +77,7 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
             foreach ($groupedQuoteItemTransferCollection as $quoteItemTransfer) {
                 $isQuoteItemAvailable = $this->isQuoteItemAvailable(
                     $quoteItemTransfer,
-                    $groupedConditionalAvailabilityTransferMap
+                    $groupedConditionalAvailabilityTransferMap,
                 );
 
                 if ($isQuoteItemAvailable) {
@@ -151,10 +166,11 @@ class AvailabilitiesChecker implements AvailabilitiesCheckerInterface
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \ArrayObject
+     * @return \ArrayObject<string, \ArrayObject<int, \Generated\Shared\Transfer\ItemTransfer>>
      */
     protected function groupQuoteItemsBySku(QuoteTransfer $quoteTransfer): ArrayObject
     {
+        /** @var \ArrayObject<string, \ArrayObject<int, \Generated\Shared\Transfer\ItemTransfer>> $groupedQuoteItemTransferMap */
         $groupedQuoteItemTransferMap = new ArrayObject();
 
         foreach ($quoteTransfer->getItems() as $itemTransfer) {

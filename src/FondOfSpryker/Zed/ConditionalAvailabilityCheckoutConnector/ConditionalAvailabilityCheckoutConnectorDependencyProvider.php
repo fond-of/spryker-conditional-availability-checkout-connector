@@ -9,7 +9,14 @@ use Spryker\Zed\Kernel\Container;
 
 class ConditionalAvailabilityCheckoutConnectorDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const FACADE_CONDITIONAL_AVAILABILITY = 'FACADE_CONDITIONAL_AVAILABILITY';
+
+    /**
+     * @var string
+     */
     public const SERVICE_CONDITIONAL_AVAILABILITY = 'SERVICE_CONDITIONAL_AVAILABILITY';
 
     /**
@@ -36,7 +43,7 @@ class ConditionalAvailabilityCheckoutConnectorDependencyProvider extends Abstrac
     {
         $container[static::FACADE_CONDITIONAL_AVAILABILITY] = static function (Container $container) {
             return new ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBridge(
-                $container->getLocator()->conditionalAvailability()->facade()
+                $container->getLocator()->conditionalAvailability()->facade(),
             );
         };
 
@@ -52,7 +59,7 @@ class ConditionalAvailabilityCheckoutConnectorDependencyProvider extends Abstrac
     {
         $container[static::SERVICE_CONDITIONAL_AVAILABILITY] = static function (Container $container) {
             return new ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceBridge(
-                $container->getLocator()->conditionalAvailability()->service()
+                $container->getLocator()->conditionalAvailability()->service(),
             );
         };
 

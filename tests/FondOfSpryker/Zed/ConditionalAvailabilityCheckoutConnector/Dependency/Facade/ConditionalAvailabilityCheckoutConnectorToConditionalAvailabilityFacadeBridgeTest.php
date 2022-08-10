@@ -47,7 +47,7 @@ class ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBri
             ->getMock();
 
         $this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBridge = new ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBridge(
-            $this->conditionalAvailabilityFacadeInterfaceMock
+            $this->conditionalAvailabilityFacadeInterfaceMock,
         );
     }
 
@@ -64,8 +64,8 @@ class ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBri
         $this->assertInstanceOf(
             ArrayObject::class,
             $this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBridge->findGroupedConditionalAvailabilities(
-                $this->conditionalAvailabilityCriteriaFilterTransferMock
-            )
+                $this->conditionalAvailabilityCriteriaFilterTransferMock,
+            ),
         );
     }
 }

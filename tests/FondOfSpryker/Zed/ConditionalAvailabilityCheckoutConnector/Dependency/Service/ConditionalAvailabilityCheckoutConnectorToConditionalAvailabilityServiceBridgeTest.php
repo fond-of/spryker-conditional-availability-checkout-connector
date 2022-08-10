@@ -28,7 +28,7 @@ class ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceBr
             ->getMock();
 
         $this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityService = new ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceBridge(
-            $this->conditionalAvailabilityServiceMock
+            $this->conditionalAvailabilityServiceMock,
         );
     }
 
@@ -48,7 +48,7 @@ class ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityServiceBr
         static::assertEquals(
             $lastOrderDate,
             $this->conditionalAvailabilityCheckoutConnectorToConditionalAvailabilityService
-                ->generateLatestOrderDateByDeliveryDate($deliveryDate)
+                ->generateLatestOrderDateByDeliveryDate($deliveryDate),
         );
     }
 }

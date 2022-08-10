@@ -65,16 +65,16 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactoryTest extends Unit
             ->method('get')
             ->withConsecutive(
                 [ConditionalAvailabilityCheckoutConnectorDependencyProvider::FACADE_CONDITIONAL_AVAILABILITY],
-                [ConditionalAvailabilityCheckoutConnectorDependencyProvider::SERVICE_CONDITIONAL_AVAILABILITY]
+                [ConditionalAvailabilityCheckoutConnectorDependencyProvider::SERVICE_CONDITIONAL_AVAILABILITY],
             )
             ->willReturnOnConsecutiveCalls(
                 $this->conditionalAvailabilityFacadeMock,
-                $this->conditionalAvailabilityServiceMock
+                $this->conditionalAvailabilityServiceMock,
             );
 
         static::assertInstanceOf(
             AvailabilitiesChecker::class,
-            $this->conditionalAvailabilityCheckoutConnectorBusinessFactory->createAvailabilitiesChecker()
+            $this->conditionalAvailabilityCheckoutConnectorBusinessFactory->createAvailabilitiesChecker(),
         );
     }
 }

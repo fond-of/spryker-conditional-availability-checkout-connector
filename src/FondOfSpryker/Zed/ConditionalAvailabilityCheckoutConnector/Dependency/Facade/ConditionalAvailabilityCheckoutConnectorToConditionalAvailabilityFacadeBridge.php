@@ -24,13 +24,13 @@ class ConditionalAvailabilityCheckoutConnectorToConditionalAvailabilityFacadeBri
     /**
      * @param \Generated\Shared\Transfer\ConditionalAvailabilityCriteriaFilterTransfer $conditionalAvailabilityCriteriaFilterTransfer
      *
-     * @return \ArrayObject<string,\Generated\Shared\Transfer\ConditionalAvailabilityTransfer[]>
+     * @return \ArrayObject<string, \ArrayObject<\Generated\Shared\Transfer\ConditionalAvailabilityTransfer>>
      */
     public function findGroupedConditionalAvailabilities(
         ConditionalAvailabilityCriteriaFilterTransfer $conditionalAvailabilityCriteriaFilterTransfer
     ): ArrayObject {
         return $this->conditionalAvailabilityFacade->findGroupedConditionalAvailabilities(
-            $conditionalAvailabilityCriteriaFilterTransfer
+            $conditionalAvailabilityCriteriaFilterTransfer,
         );
     }
 }
