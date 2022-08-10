@@ -73,8 +73,8 @@ class ConditionalAvailabilityCheckoutPreConditionPluginTest extends Unit
         $this->assertTrue(
             $this->conditionalAvailabilityCheckoutPreConditionPlugin->checkCondition(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 }

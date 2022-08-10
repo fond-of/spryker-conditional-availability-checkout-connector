@@ -21,7 +21,7 @@ class ConditionalAvailabilityCheckoutConnectorBusinessFactory extends AbstractBu
     {
         return new AvailabilitiesChecker(
             $this->getConditionalAvailabilityFacade(),
-            $this->getConditionalAvailabilityService()
+            $this->getConditionalAvailabilityService(),
         );
     }
 

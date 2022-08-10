@@ -43,7 +43,7 @@ class AvailabilitiesCheckerTest extends Unit
     protected $itemTransferMock;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[]
+     * @var \ArrayObject<\Generated\Shared\Transfer\ItemTransfer>
      */
     protected $itemTransferMocks;
 
@@ -63,7 +63,7 @@ class AvailabilitiesCheckerTest extends Unit
     protected $conditionalAvailabilityTransferMock;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\ConditionalAvailabilityTransfer[]
+     * @var \ArrayObject<\Generated\Shared\Transfer\ConditionalAvailabilityTransfer>
      */
     protected $conditionalAvailabilityTransferMocks;
 
@@ -98,7 +98,7 @@ class AvailabilitiesCheckerTest extends Unit
     protected $endAt;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\ConditionalAvailabilityPeriodTransfer[]
+     * @var \ArrayObject<\Generated\Shared\Transfer\ConditionalAvailabilityPeriodTransfer>
      */
     protected $conditionalAvailabilityPeriodTransferMocks;
 
@@ -181,7 +181,7 @@ class AvailabilitiesCheckerTest extends Unit
 
         $this->availabilitiesChecker = new AvailabilitiesChecker(
             $this->conditionalAvailabilityFacadeMock,
-            $this->conditionalAvailabilityServiceMock
+            $this->conditionalAvailabilityServiceMock,
         );
     }
 
@@ -245,8 +245,8 @@ class AvailabilitiesCheckerTest extends Unit
         static::assertTrue(
             $this->availabilitiesChecker->check(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 
@@ -319,8 +319,8 @@ class AvailabilitiesCheckerTest extends Unit
         static::assertFalse(
             $this->availabilitiesChecker->check(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 
@@ -361,8 +361,8 @@ class AvailabilitiesCheckerTest extends Unit
         static::assertFalse(
             $this->availabilitiesChecker->check(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 
@@ -419,8 +419,8 @@ class AvailabilitiesCheckerTest extends Unit
         static::assertFalse(
             $this->availabilitiesChecker->check(
                 $this->quoteTransferMock,
-                $this->checkoutResponseTransferMock
-            )
+                $this->checkoutResponseTransferMock,
+            ),
         );
     }
 }

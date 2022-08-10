@@ -37,8 +37,8 @@ class ConditionalAvailabilityCheckoutConnectorDependencyProviderTest extends Uni
         $this->assertInstanceOf(
             Container::class,
             $this->conditionalAvailabilityCheckoutConnectorDependencyProvider->provideBusinessLayerDependencies(
-                $this->containerMock
-            )
+                $this->containerMock,
+            ),
         );
     }
 }
